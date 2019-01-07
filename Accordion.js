@@ -9,7 +9,9 @@ const VIEW_PROPS = Object.keys(ViewPropTypes);
 
 export default class Accordion extends Component {
   static propTypes = {
-    sections: PropTypes.array.isRequired,
+    sections: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+    })).isRequired,
     renderHeader: PropTypes.func.isRequired,
     renderContent: PropTypes.func.isRequired,
     renderSectionTitle: PropTypes.func,
@@ -97,11 +99,11 @@ export default class Accordion extends Component {
 
     return (
       <View style={containerStyle} {...viewProps}>
-        {sections.map((section, key) => (
-          <View key={key} style={sectionContainerStyle}>
-            {renderSectionTitle(section, key, activeSections.includes(key))}
+        {sections.map((section) => (
+          <View key={section.key} style={sectionContainerStyle}>
+            {renderSectionTitle(section, section.key, activeSections.includes(section.key))}
 
-            {expandFromBottom && renderCollapsible(section, key)}
+            {expandFromBottom && renderCollapsible(section, section.key)}
 
             <Touchable
               onPress={() => this._toggleSection(key)}
@@ -110,13 +112,13 @@ export default class Accordion extends Component {
             >
               {renderHeader(
                 section,
-                key,
-                activeSections.includes(key),
+                section.key,
+                activeSections.includes(section.key),
                 sections
               )}
             </Touchable>
 
-            {!expandFromBottom && renderCollapsible(section, key)}
+            {!expandFromBottom && renderCollapsible(section, section.key)}
           </View>
         ))}
       </View>

@@ -10,7 +10,7 @@ const VIEW_PROPS = Object.keys(ViewPropTypes);
 export default class Accordion extends Component {
   static propTypes = {
     sections: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
+      key: PropTypes.number.isRequired,
     })).isRequired,
     renderHeader: PropTypes.func.isRequired,
     renderContent: PropTypes.func.isRequired,
